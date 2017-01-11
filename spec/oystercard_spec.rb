@@ -3,10 +3,9 @@ require 'oystercard'
 
 
 describe Oystercard do
-  # In order to use public transport
-  # As a customer
-  # I want money on my card
+
   subject(:oystercard){described_class.new}
+  let(:station) { double :station }
 
   it { is_expected.to respond_to :balance }
 
@@ -15,7 +14,7 @@ describe Oystercard do
   end
 
     it "checks if balance is less than minimum limit" do
-      expect{oystercard.touch_in}.to raise_error "Insufficient funds"
+      expect{oystercard.touch_in(station)}.to raise_error "Insufficient funds"
     end
 
   context 'it has a full balance' do
@@ -25,20 +24,27 @@ describe Oystercard do
         expect{ oystercard.top_up(1)}.to raise_error "Maximum balance of #{Oystercard::BALANCE_LIMIT} exceeded"
       end
         describe "state of journey" do
-          it 'can touch in' do
-            oystercard.touch_in
-            expect(oystercard).to be_in_journey
-          end
 
           it '"touch in" writes an entry station' do
-            oystercard.touch_in
-            expect(oystercard.entry_station).to be nil
+            oystercard.touch_in(station)
+            expect(oystercard.entry_station).to eq(station)
           end
 
-          it 'can touch out' do
-            oystercard.touch_in
+          it '"touch_out" sets exit station to nil' do
+            oystercard.touch_in(station)
             oystercard.touch_out
-            expect(oystercard).not_to be_in_journey
+            expect(oystercard.entry_station).to eq nil
+          end
+
+          it 'does in_journey? become true when touch_in' do
+            oystercard.touch_in(station)
+            expect(oystercard.in_journey?).to eq true
+          end
+
+          it 'does in_journey? become false when touch_out' do
+            oystercard.touch_in(station)
+            oystercard.touch_out
+            expect(oystercard.in_journey?).to eq false
           end
         end
 
@@ -47,7 +53,4 @@ describe Oystercard do
       end
   end
 
-  it 'is initially not in a journey' do
-    expect(oystercard).not_to be_in_journey
-  end
 end
