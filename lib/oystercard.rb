@@ -6,10 +6,12 @@ class Oystercard
   MINIMUM_CHARGE = 1
 
   attr_reader :balance, :entry_station
+  attr_accessor :journey_history
 
   def initialize
     @balance = 0
     @entry_station = nil
+    @journey_history = []
   end
 
   def top_up(amount)
@@ -37,6 +39,7 @@ class Oystercard
   def over_limit?(amount)
     (@balance + amount) > BALANCE_LIMIT
   end
+  
 
 private
 

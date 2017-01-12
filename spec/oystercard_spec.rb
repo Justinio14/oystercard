@@ -17,6 +17,10 @@ describe Oystercard do
       expect{oystercard.touch_in(station)}.to raise_error "Insufficient funds"
     end
 
+    it 'initializes with a blank journey history' do
+      expect(oystercard.journey_history).to eq []
+    end
+
   context 'it has a full balance' do
     before{oystercard.top_up(Oystercard::BALANCE_LIMIT)}
 
