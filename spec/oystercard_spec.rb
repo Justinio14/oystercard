@@ -5,8 +5,9 @@ require 'oystercard'
 describe Oystercard do
 
   subject(:oystercard){described_class.new}
-  let(:station) { double :station }
-  let(:exit_station) {double :station}
+  let(:entry_station) { double :entry_station }
+  let(:exit_station) {double :exit_station}
+  let(:complete_journey) { {entry_station: entry_station, exit_station: exit_station}}
 
   it { is_expected.to respond_to :balance }
 
@@ -15,7 +16,7 @@ describe Oystercard do
   end
 
     it "checks if balance is less than minimum limit" do
-      expect{oystercard.touch_in(station)}.to raise_error "Insufficient funds"
+      expect{oystercard.touch_in(entry_station)}.to raise_error "Insufficient funds"
     end
 
     it 'initializes with a blank journey history' do
@@ -32,35 +33,35 @@ describe Oystercard do
           describe "state of journey" do
 
           it '"touch in" writes an entry station' do
-            oystercard.touch_in(station)
-            expect(oystercard.entry_station).to eq(station)
+            oystercard.touch_in(entry_station)
+            expect(oystercard.entry_station).to eq(entry_station)
           end
 
           it '"touch_out" sets exit station to nil' do
-            oystercard.touch_in(station)
+            oystercard.touch_in(entry_station)
             oystercard.touch_out
             expect(oystercard.entry_station).to eq nil
           end
 
           it 'does in_journey? become true when touch_in' do
-            oystercard.touch_in(station)
+            oystercard.touch_in(entry_station)
             expect(oystercard.in_journey?).to eq true
           end
 
           it 'does in_journey? become false when touch_out' do
-            oystercard.touch_in(station)
+            oystercard.touch_in(entry_station)
             oystercard.touch_out
             expect(oystercard.in_journey?).to eq false
           end
 
           it 'records a journey on touch_out' do
-            oystercard.touch_in(station)
+            oystercard.touch_in(entry_station)
             oystercard.touch_out(exit_station)
-            expect(oystercard.journey).to include(station => exit_station)
+            expect(oystercard.journey).to include(entry_station => exit_station)
           end
 
           it 'reverts exit station to nil on touch_out' do
-            oystercard.touch_in(station)
+            oystercard.touch_in(entry_station)
             oystercard.touch_out(exit_station)
             expect(oystercard.exit_station).to eq nil
           end

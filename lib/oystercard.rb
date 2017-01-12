@@ -26,9 +26,9 @@ class Oystercard
 
   end
 
-  def touch_in(station=nil)
+  def touch_in(entry_station=nil)
     fail "Insufficient funds" if balance < MINIMUM_CHARGE
-    @entry_station = station
+    @entry_station = entry_station
 
   end
 
