@@ -6,6 +6,7 @@ describe Oystercard do
 
   subject(:oystercard){described_class.new}
   let(:station) { double :station }
+  let(:exit_station) {double :station}
 
   it { is_expected.to respond_to :balance }
 
@@ -24,10 +25,11 @@ describe Oystercard do
   context 'it has a full balance' do
     before{oystercard.top_up(Oystercard::BALANCE_LIMIT)}
 
-      it "won't let you top up over the balance limit" do
-        expect{ oystercard.top_up(1)}.to raise_error "Maximum balance of #{Oystercard::BALANCE_LIMIT} exceeded"
-      end
-        describe "state of journey" do
+          it "won't let you top up over the balance limit" do
+            expect{ oystercard.top_up(1)}.to raise_error "Maximum balance of #{Oystercard::BALANCE_LIMIT} exceeded"
+          end
+
+          describe "state of journey" do
 
           it '"touch in" writes an entry station' do
             oystercard.touch_in(station)
@@ -49,6 +51,18 @@ describe Oystercard do
             oystercard.touch_in(station)
             oystercard.touch_out
             expect(oystercard.in_journey?).to eq false
+          end
+
+          it 'records a journey on touch_out' do
+            oystercard.touch_in(station)
+            oystercard.touch_out(exit_station)
+            expect(oystercard.journey).to include(station => exit_station)
+          end
+
+          it 'reverts exit station to nil on touch_out' do
+            oystercard.touch_in(station)
+            oystercard.touch_out(exit_station)
+            expect(oystercard.exit_station).to eq nil
           end
         end
 
