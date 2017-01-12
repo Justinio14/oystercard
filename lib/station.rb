@@ -1,4 +1,4 @@
-
+require 'station'
 
 class Station
 
