@@ -11,7 +11,7 @@ class Journey
 
   def finish(station=nil)
     @exit = station
-    @complete = true
+    entry == nil ? @complete = false : @complete = true
   end
 
   def fare

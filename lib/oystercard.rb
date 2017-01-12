@@ -41,7 +41,7 @@ class Oystercard
     deduct(MINIMUM_CHARGE)
     @exit_station = nil
     @entry_station = nil
-    exit_station
+    #exit_station
   end
 
   def over_limit?(amount)
