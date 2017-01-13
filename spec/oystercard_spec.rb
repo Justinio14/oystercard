@@ -7,7 +7,7 @@ describe Oystercard do
   subject(:oystercard){described_class.new}
   let(:entry_station) { double :entry_station }
   let(:exit_station) {double :exit_station}
-  let(:journey) { {entry_station => exit_station} }
+  let(:journey) { {:entry_station => entry_station, :exit_station => exit_station} }
 
   it { is_expected.to respond_to :balance }
 

@@ -3,10 +3,15 @@ class Journey
   PENALTY_CHARGE = 6
   attr_reader :entry, :exit, :complete
 
-  def initialize(station=nil)
-    @entry = station
+  def initialize
+    @entry = nil
     @exit = nil
     @complete = false
+  end
+
+  def start(station)
+
+ @entry != nil ?   fail "already touched in" : @entry = station
   end
 
   def finish(station=nil)

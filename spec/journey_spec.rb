@@ -11,7 +11,7 @@ describe Journey do
     end
 
    it "checks journey is complete" do
-     journey = Journey.new(station)
+     journey.start(station)
      journey.finish(station)
      expect(journey.complete).to eq true
    end
@@ -22,8 +22,16 @@ describe Journey do
    end
 
    it "checks journey is incomplete if no exit station" do
-     journey = Journey.new(station)
+     journey = Journey.new
      expect(journey.complete).to eq false
    end
+
+   it "checks is started twice with a touch out" do
+     journey = Journey.new
+     journey.start(station)
+     expect{journey.start(station)}.to raise_error "already touched in"
+   end
+
+
 
 end
