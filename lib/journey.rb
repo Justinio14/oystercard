@@ -27,3 +27,6 @@ class Journey
     @complete = true && @entry != nil && @exit != nil
   end
 end
+
+trip = Journey.new
+@trip = trip
