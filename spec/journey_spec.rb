@@ -16,22 +16,29 @@ describe Journey do
      expect(journey.complete).to eq true
    end
 
-   it "checks journey is incomplete if no entry station" do
-     journey.finish(station)
-     expect(journey.complete).to eq false
-   end
+  #  it "checks journey is incomplete if no entry station" do
+  #    journey.finish(station)
+  #    expect(journey.complete).to eq false
+  #  end
 
    it "checks journey is incomplete if no exit station" do
-     journey = Journey.new
      expect(journey.complete).to eq false
    end
 
-   it "checks is started twice with a touch out" do
-     journey = Journey.new
-     journey.start(station)
-     expect{journey.start(station)}.to raise_error "already touched in"
+   it "charges a penalty fare for two consecutive touch ins" do
+     2.times {journey.start(station)}
+     expect(journey.fare).to eq Journey::PENALTY_CHARGE
    end
 
+   it "charges a penalty fare for a touch out with no touch in" do
+     journey.finish(station)
+     expect(journey.fare).to eq Journey::PENALTY_CHARGE
+   end
 
+   it "charges the minimum fare when a journey starts and finishes properly" do
+     journey.start(station)
+     journey.finish(station)
+     expect(journey.fare).to eq Journey::MINIMUM_CHARGE
+   end
 
 end

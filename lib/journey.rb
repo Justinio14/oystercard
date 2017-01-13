@@ -10,18 +10,20 @@ class Journey
   end
 
   def start(station)
-
- @entry != nil ?   fail "already touched in" : @entry = station
+    @complete = false
+   (@entry != nil) ? @complete = true : @entry = station
   end
 
-  def finish(station=nil)
+  def finish(station)
     @exit = station
-    entry == nil ? @complete = false : @complete = true
+    @complete = true
   end
 
   def fare
-    (entry == nil || exit == nil) ? PENALTY_CHARGE : MINIMUM_CHARGE
+    valid_journey? ? MINIMUM_CHARGE : PENALTY_CHARGE
   end
 
-
+  def valid_journey?
+    @complete = true && @entry != nil && @exit != nil
+  end
 end
