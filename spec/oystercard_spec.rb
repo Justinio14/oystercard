@@ -7,7 +7,7 @@ describe Oystercard do
   subject(:oystercard){described_class.new(journeys)}
   let(:entry_station) { double :entry_station }
   let(:exit_station) {double :exit_station}
-  #let(:journey) { {:entry_station => entry_station, :exit_station => exit_station} }
+  let(:journey_log) { {:entry_station => entry_station, :exit_station => exit_station} }
   let(:journey) { double :journey }
   let(:trip) { double :trip }
   let(:journeys) { double :journeys, start: nil  }
@@ -64,7 +64,7 @@ describe Oystercard do
               it 'records a journey on touch_out' do
                 oystercard.touch_in(entry_station)
                 oystercard.touch_out(exit_station)
-                expect(oystercard.journey).to include journey
+                expect(oystercard.journey).to include journey_log
               end
 
               it 'reverts exit station to nil on touch_out' do
