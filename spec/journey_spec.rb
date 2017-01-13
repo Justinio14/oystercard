@@ -4,7 +4,11 @@ describe Journey do
 
   subject(:journey) {described_class.new}
   let(:station) { double :station }
+  let(:oystercard) { double :oystercard, touch_in: nil}
+  let(:entry_station) { double :entry_station}
 
+
+    it {is_expected.to respond_to(:start).with(1).argument}
 
 
     it "Initialises journey with an entry station" do
