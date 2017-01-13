@@ -6,6 +6,7 @@ describe Journey do
   let(:station) { double :station }
 
 
+
     it "Initialises journey with an entry station" do
       expect(journey.entry).to eq nil
     end
@@ -20,6 +21,7 @@ describe Journey do
   #    journey.finish(station)
   #    expect(journey.complete).to eq false
   #  end
+
 
    it "checks journey is incomplete if no exit station" do
      expect(journey.complete).to eq false

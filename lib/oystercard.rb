@@ -7,10 +7,11 @@ class Oystercard
   BALANCE_LIMIT = 90
   MINIMUM_CHARGE = 1
 
-  attr_reader :balance, :entry_station, :exit_station, :journey
+  attr_reader :balance, :entry_station, :exit_station, :journey, :journeys
   attr_accessor :journey_history
 
-  def initialize
+  def initialize(journeys = Journey.new)
+    @journeys = journeys
     @balance = 0
     @entry_station = nil
     @exit_station = nil
@@ -32,7 +33,7 @@ class Oystercard
     fail "Insufficient funds" if balance < MINIMUM_CHARGE
     #@entry_station ? "already touched in"
     @entry_station = entry_station
-
+    journeys.start(entry_station)
 
   end
 
