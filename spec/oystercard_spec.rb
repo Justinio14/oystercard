@@ -10,7 +10,7 @@ describe Oystercard do
   let(:journey_log) { {:entry_station => entry_station, :exit_station => exit_station} }
   let(:journey) { double :journey }
   let(:trip) { double :trip }
-  let(:journeys) { double :journeys, start: nil  }
+  let(:journeys) { double :journeys, start: entry_station }
 
   it "should send the start journey message" do
     oystercard.top_up(10)
