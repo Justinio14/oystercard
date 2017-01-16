@@ -9,9 +9,9 @@ class Journey
     @complete = false
   end
 
-  def start(station)
+  def start(station)#??
     @complete = false
-   (@entry != nil) ? @complete = true : @entry = station
+   (@entry != nil) ? @complete = true : @entry = station#osytercard.entry_station
   end
 
   def finish(station)
